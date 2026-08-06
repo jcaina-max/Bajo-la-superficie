@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bajo la superficie del progreso — Deepwater Horizon</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: #030712; color: #cbd5e1; font-family: 'Outfit', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #030712; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+    .cyber-title { font-family: 'Chakra Petch', 'Space Grotesk', sans-serif; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+    .cyber-sub { font-family: 'Chakra Petch', 'Space Grotesk', sans-serif; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .body-text { font-family: 'Outfit', sans-serif; text-align: justify; text-justify: inter-word; hyphens: auto; }
+    .body-text > p { text-align: justify; }
+
+    .glass { background: rgba(15,23,42,0.75); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); }
+    .glass-card { background: rgba(15,23,42,0.7); backdrop-filter: blur(14px); border: 1px solid rgba(51,65,85,0.3); transition: all 0.3s; }
+    .glass-card:hover { border-color: rgba(56,189,248,0.4); box-shadow: 0 0 30px rgba(56,189,248,0.08); }
+    .glow-cyan { box-shadow: 0 0 30px rgba(56,189,248,0.12), 0 0 60px rgba(56,189,248,0.04); }
+    .glow-amber { box-shadow: 0 0 30px rgba(245,158,11,0.12), 0 0 60px rgba(245,158,11,0.04); }
+    .glow-emerald { box-shadow: 0 0 30px rgba(16,185,129,0.12), 0 0 60px rgba(16,185,129,0.04); }
+    .hero-gradient { background: linear-gradient(180deg, #030712 0%, rgba(3,7,18,0.3) 35%, rgba(3,7,18,0.7) 65%, #030712 100%); }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,7,18,0.2) 0%, rgba(3,7,18,0.6) 50%, #030712 100%); z-index: 1; }
+    .neon-border-cyan { border: 1px solid rgba(56,189,248,0.2); box-shadow: 0 0 25px rgba(56,189,248,0.08), inset 0 0 25px rgba(56,189,248,0.02); }
+    .neon-border-amber { border: 1px solid rgba(245,158,11,0.2); box-shadow: 0 0 25px rgba(245,158,11,0.08), inset 0 0 25px rgba(245,158,11,0.02); }
+    .section-number { font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.15em; }
+
+    .sim-btn { font-family: 'Chakra Petch', sans-serif; font-size: 0.75rem; font-weight: 700; padding: 0.65rem 1.75rem; border-radius: 8px; border: none; cursor: pointer; transition: all 0.25s; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .sim-btn-primary { background: linear-gradient(135deg, #38BDF8, #0EA5E9); color: #fff; box-shadow: 0 0 20px rgba(56,189,248,0.2); }
+    .sim-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(56,189,248,0.35); }
+    .sim-btn-secondary { background: rgba(30,41,59,0.8); color: #94a3b8; border: 1px solid #334155; }
+    .sim-btn-secondary:hover { background: #334155; color: #fff; border-color: #38BDF8; }
+
+    .ref-entry { border-left: 2px solid rgba(56,189,248,0.15); padding-left: 1rem; margin-bottom: 0.75rem; font-size: 0.8rem; line-height: 1.6; color: #94a3b8; }
+    .ref-entry a { color: #38BDF8; text-decoration: none; word-break: break-all; }
+    .ref-entry a:hover { text-decoration: underline; }
+    .ref-num { color: #38BDF8; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+    .stat-card { background: rgba(15,23,42,0.75); backdrop-filter: blur(14px); border-radius: 1rem; padding: 1.35rem 1.4rem; transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s; }
+    .stat-card:hover { transform: translateY(-3px); }
+    .stat-card.neon-red { border: 1px solid rgba(239,68,68,0.45); box-shadow: 0 0 28px rgba(239,68,68,0.12), inset 0 0 20px rgba(239,68,68,0.03); }
+    .stat-card.neon-amber { border: 1px solid rgba(245,158,11,0.45); box-shadow: 0 0 28px rgba(245,158,11,0.12), inset 0 0 20px rgba(245,158,11,0.03); }
+    .stat-card.neon-cyan { border: 1px solid rgba(56,189,248,0.45); box-shadow: 0 0 28px rgba(56,189,248,0.12), inset 0 0 20px rgba(56,189,248,0.03); }
+    .stat-card.neon-emerald { border: 1px solid rgba(16,185,129,0.45); box-shadow: 0 0 28px rgba(16,185,129,0.12), inset 0 0 20px rgba(16,185,129,0.03); }
+    .stat-card .stat-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.82rem; margin-bottom: 1rem; }
+    .stat-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+    .stat-card li { font-size: 0.84rem; line-height: 1.55; color: #cbd5e1; border-left: 2px solid rgba(148,163,184,0.15); padding-left: 0.75rem; }
+    .stat-card li strong { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.78rem; display: block; margin-bottom: 0.15rem; }
+
+    .cyber-title-sim { font-family: 'Chakra Petch', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; }
+    .cyber-mono-sim { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+    .cyber-desc-sim { font-family: 'Outfit', sans-serif; font-weight: 400; color: #cbd5e1; }
+    .cyber-panel { background: rgba(15,23,42,0.9); border: 1px solid #1e293b; border-radius: 1rem; box-shadow: 0 0 30px rgba(56,189,248,0.10), inset 0 0 0 1px rgba(56,189,248,0.03); backdrop-filter: blur(10px); }
+    .cyber-card { background: rgba(2,6,14,0.6); border: 1px solid rgba(56,189,248,0.25); border-radius: 0.85rem; padding: 1rem 1.05rem; position: relative; overflow: hidden; transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s; }
+    .cyber-card:hover { border-color: rgba(56,189,248,0.55); box-shadow: 0 0 22px rgba(56,189,248,0.18); transform: translateY(-2px); }
+    .cyber-card .cc-num { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #38BDF8; letter-spacing: 0.15em; }
+    .cyber-card .cc-title { font-family: 'Chakra Petch', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #f1f5f9; font-size: 0.85rem; margin-top: 0.3rem; }
+    .cyber-card .cc-body { font-family: 'Outfit', sans-serif; font-size: 0.78rem; color: #cbd5e1; line-height: 1.55; margin-top: 0.4rem; }
+    .cyber-card .cc-body code { font-family: 'JetBrains Mono', monospace; color: #38BDF8; font-size: 0.75rem; }
+    .cyber-metric { background: rgba(2,6,14,0.75); border: 1px solid rgba(56,189,248,0.22); border-radius: 0.75rem; padding: 0.7rem 0.85rem; }
+    .cyber-metric .cm-label { font-family: 'Chakra Petch', sans-serif; font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.16em; color: #64748b; }
+    .cyber-metric .cm-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem; color: #e2e8f0; text-shadow: 0 0 8px rgba(56,189,248,0.35); margin-top: 0.15rem; }
+    .cyber-btn { font-family: 'Chakra Petch', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem; padding: 0.6rem 1.2rem; border-radius: 8px; border: 1px solid; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+    .cyber-btn-play { background: rgba(56,189,248,0.12); color: #38BDF8; border-color: rgba(56,189,248,0.5); box-shadow: 0 0 14px rgba(56,189,248,0.15); }
+    .cyber-btn-play:hover { background: rgba(56,189,248,0.22); }
+    .cyber-btn-play.running { background: rgba(245,158,11,0.15); color: #F59E0B; border-color: rgba(245,158,11,0.5); }
+    .cyber-btn-reset { background: rgba(148,163,184,0.08); color: #cbd5e1; border-color: rgba(148,163,184,0.3); }
+    .cyber-btn-reset:hover { background: rgba(148,163,184,0.15); color: #fff; }
+    .cyber-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #0f172a, #1e293b); outline: none; border: 1px solid rgba(56,189,248,0.2); }
+    .cyber-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #38BDF8; cursor: pointer; border: 2px solid #0F172A; box-shadow: 0 0 12px rgba(56,189,248,0.7); }
+    .cyber-slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #38BDF8; cursor: pointer; border: 2px solid #0F172A; }
+    .tide-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.72rem; padding: 0.35rem 0.7rem; border-radius: 6px; border: 1px solid rgba(56,189,248,0.3); background: rgba(56,189,248,0.08); color: #38BDF8; }
+    .tide-badge.high { background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.55); box-shadow: 0 0 12px rgba(56,189,248,0.25); }
+    .tide-badge.low { background: rgba(148,163,184,0.08); color: #94a3b8; border-color: rgba(148,163,184,0.3); }
+    .cyber-guide-bar { font-family: 'Outfit', sans-serif; font-size: 0.78rem; color: #cbd5e1; background: rgba(2,6,14,0.6); border: 1px solid rgba(56,189,248,0.18); border-radius: 0.75rem; padding: 0.75rem 1rem; }
+    .cyber-guide-bar code { font-family: 'JetBrains Mono', monospace; color: #38BDF8; font-size: 0.75rem; padding: 0 0.3rem; background: rgba(56,189,248,0.08); border-radius: 4px; }
+    .formula-box { background: rgba(56,189,248,0.05); border: 1px solid rgba(56,189,248,0.2); border-radius: 10px; padding: 0.85rem 1.1rem; margin-bottom: 0.6rem; }
+    .formula-box .label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #64748b; margin-bottom: 2px; }
+    .formula-box .eq { font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: #38BDF8; font-weight: 600; }
+    canvas { display: block; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Océano profundo" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+    <div class="hero-overlay"></div>
+    <div class="hero-gradient absolute inset-0 z-[2]"></div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <h1 class="cyber-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] text-white mb-6 tracking-tight">BAJO LA SUPERFICIE</h1>
+      <h1 class="cyber-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] mb-8 bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent tracking-tight">DEL PROGRESO</h1>
+      <div class="glass-card max-w-3xl mx-auto p-8 rounded-2xl mb-12 text-left glow-cyan neon-border-cyan">
+        <div class="flex items-start gap-3">
+          <span class="text-cyan-400 text-2xl font-bold leading-none mt-1">"</span>
+          <p class="body-text text-slate-300 text-base sm:text-lg leading-relaxed font-light italic" style="text-align:left;">El desastre de Deepwater Horizon demuestra como la priorización del capital sobre los límites ecológicos y éticos rompen el equilibrio global, utilizando 'soluciones' engañosas que ocultan el impacto ambiental en lugar de proteger la vida.</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <a href="#introduccion" class="sim-btn sim-btn-primary">EXPLORAR INVESTIGACIÓN</a>
+        <a href="#simulador" class="sim-btn sim-btn-secondary">SIMULADOR INTERACTIVO</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRODUCCIÓN -->
+  <section id="introduccion" class="relative py-20 sm:py-28">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-number text-cyan-400">01</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-cyan-500/40 to-transparent"></div>
+        </div>
+        <h2 class="cyber-title text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 tracking-wide">Introducción</h2>
+        <div class="body-text text-slate-300 text-base sm:text-lg leading-[1.85] space-y-6">
+          <p>El desastre petrolero de Deepwater Horizon, ocurrido en el Golfo de México en el año 2010, no fue una simple falla fortuita ni un accidente aislado. Fue la manifestación más cruda de una crisis socioambiental donde la avaricia del modelo económico extractivista y las negligencias operativas provocaron el derrame masivo de más de cuatro millones de barriles de crudo. La marea negra no sólo devastó los frágiles ecosistemas marinos, sino que dejó al descubierto la ceguera de un sistema corporativo que prioriza las ganancias inmediatas sobre el bienestar general. Ante esta realidad, el desastre de Deepwater Horizon demuestra cómo la priorización del capital sobre los límites ecológicos y éticos rompe el equilibrio global, utilizando "soluciones" engañosas que ocultan el impacto ambiental en lugar de proteger la vida.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESARROLLO (parte 1) -->
+  <section id="desarrollo" class="relative py-20 sm:py-28" style="background:linear-gradient(180deg, #030712 0%, rgba(3,7,18,0.95) 100%);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-number text-emerald-400">02</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-emerald-500/40 to-transparent"></div>
+        </div>
+        <h2 class="cyber-title text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 tracking-wide">Desarrollo</h2>
+        <div class="body-text text-slate-300 text-base sm:text-lg leading-[1.85] space-y-6">
+          <p>Esta tragedia expone el profundo quiebre del modelo de desarrollo dominante, un sistema fundado en el extractivismo que mide el progreso únicamente a través del crecimiento económico y el consumo ilimitado. La búsqueda obsesiva de rentabilidad empuja las fronteras petroleras hacia zonas de alto riesgo operativo (como la perforación en aguas ultraprofundas de este caso), sacrificando la sostenibilidad de los territorios para satisfacer la demanda de combustibles fósiles. En este escenario, la corporación BP y las instituciones estatales traicionan y sobrepasan el pacto social. Bajo la lógica nacida del contractualismo, la sociedad se rige y sostiene bajo un acuerdo: la ciudadanía otorga el poder de regulación al Estado y concede licencias de operación a las empresas con la condición indispensable de que ambos garanticen la protección del bienestar colectivo y la preservación de la vida. Al flexibilizar controles y recortar presupuestos de seguridad para abaratar costos, la empresa y el Estado quebrantaron ese compromiso esencial con la comunidad.</p>
+          <p>Esta conducta se revela insostenible al examinarse a la luz del imperativo categórico kantiano (filósofo de la Ilustración), principio que argumenta que las acciones humanas se basen por normas éticas universales y el cual se despliega en dos fases: actuar únicamente bajo normas que puedan convertirse en ley universal y tratar a las personas como un fin en sí mismas y nunca como un simple medio. En primer lugar, la actuación de la corporación falla porque no puede universalizarse: si todas las empresas del mundo decidieran reducir sus márgenes de seguridad para multiplicar sus ganancias, el colapso ecológico y social global sería inevitable. En segundo lugar, este marco ético rechaza convertir a los seres vivos en meras herramientas para la acumulación de capital, recordando que la naturaleza y las comunidades poseen un valor intrínseco y deben ser tratadas siempre como fines prioritarios. Por ello, se vuelve urgente subordinar la expansión industrial al principio de responsabilidad socioambiental, un mandato que expone que el desarrollo tecnológico esté estrictamente condicionado a garantizar la supervivencia humana e integral de los ecosistemas.</p>
+          <p>Lejos de quedarse en una reflexión teórica, esta negligencia ética y la alteración del pacto social se demuestran cuantitativamente en el espacio y el tiempo a través de la matemática. Si ubicamos el pozo Macondo como el origen en un plano cartesiano, la expansión del crudo se modela mediante la ecuación canónica de la circunferencia Mediante esta expresión es posible calcular el área total del océano directamente afectada y el perímetro de contención requerido para cercar el derrame, probando que la corporación conocía con precisión la magnitud espacial del desastre y la cantidad de barreras necesarias, pero optó por no desplegar la cantidad necesaria para reducir costos. No obstante, el océano no es un sistema estático. Al integrar la variable temporal mediante la función trigonométrica sinusoidal cuya gráfica oscila periódicamente en forma de onda, se representa el comportamiento real de las mareas. Este modelo evidencia cómo el radio de la mancha crecía rítmicamente en marea alta y cambiaba en marea baja. La oscilación constante del mar aceleró la propagación del crudo, demostrando geométricamente la velocidad del desastre y dejando al descubierto que las medidas de contención estáticas de la empresa eran del todo insuficientes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section id="simulador" class="relative py-20 sm:py-28">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="cyber-mono-sim text-[0.65rem] tracking-[0.25em] text-[#38BDF8] mb-3 block text-center">// LABORATORIO INTERACTIVO</span>
+      <h2 class="cyber-title-sim text-white text-center text-2xl sm:text-3xl md:text-4xl max-w-3xl mx-auto mb-2">LABORATORIO DE MODELACIÓN MATEMÁTICO-ESPACIAL</h2>
+      <p class="cyber-desc-sim text-sm text-slate-400 text-center max-w-2xl mx-auto mb-8">Reconstrucción matemática de las primeras 72 horas del derrame del pozo Macondo (20–23 abril 2010).</p>
+
+      <div class="max-w-6xl mx-auto mb-8 cyber-panel p-5 sm:p-7">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="cyber-mono-sim text-[0.7rem] text-[#38BDF8]">[INFO_PANEL]</span>
+          <h3 class="cyber-title-sim text-white text-base sm:text-lg">// CONTROLES DEL SIMULADOR</h3>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="cyber-card">
+            <div class="cc-num">01 // ORIGEN</div>
+            <div class="cc-title">Pozo Macondo (0,0)</div>
+            <div class="cc-body">En <code>t = 0</code> el radio inicia exactamente en <code>r = 0 km</code>.</div>
+          </div>
+          <div class="cyber-card">
+            <div class="cc-num">02 // VELOCIDAD</div>
+            <div class="cc-title">v(t)</div>
+            <div class="cc-body"><code>v(t) = 1.5 + 0.8·sin(0.51·t)</code></div>
+          </div>
+          <div class="cyber-card">
+            <div class="cc-num">03 // RADIO</div>
+            <div class="cc-title">r(t)</div>
+            <div class="cc-body"><code>r(t) = 1.5t − (0.8/0.51)·(cos(0.51t)−1)</code></div>
+          </div>
+          <div class="cyber-card">
+            <div class="cc-num">04 // BARRERA</div>
+            <div class="cc-title">Anillo 14 km</div>
+            <div class="cc-body">Al superar 14 km el radio pasa de cian a rojo alerta.</div>
+          </div>
+        </div>
+        <div class="cyber-guide-bar mt-5">
+          <span class="cyber-mono-sim text-[0.7rem] text-[#38BDF8] mr-2">[CTRL]</span>
+          <code>INICIAR</code> · <code>PAUSAR</code> · <code>REINICIAR</code> · <code>SLIDER</code> 0–72 hrs
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div class="lg:col-span-3 cyber-panel p-4 sm:p-5">
+          <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h3 class="cyber-title-sim text-white text-sm">// GOLFO DE MÉXICO · MC252 · 20–23 ABR 2010</h3>
+            <span id="simStatus" class="cyber-mono-sim text-[0.65rem] text-slate-500 tracking-widest px-2 py-0.5 rounded bg-slate-500/10 border border-slate-500/20 uppercase">[ DETENIDO ]</span>
+          </div>
+          <div class="relative bg-[#020610] rounded-lg overflow-hidden border border-slate-800" style="aspect-ratio: 4/3;">
+            <canvas id="sim-canvas" class="w-full h-full"></canvas>
+          </div>
+          <div class="mt-4 space-y-3">
+            <div class="flex flex-wrap gap-2 items-center">
+              <button id="btn-play" class="cyber-btn cyber-btn-play">INICIAR ANIMACIÓN</button>
+              <button id="btn-reset" class="cyber-btn cyber-btn-reset">REINICIAR</button>
+              <span id="val-phase" class="tide-badge low ml-auto">MAREA MEDIA</span>
+            </div>
+            <div>
+              <label class="cyber-mono-sim text-[0.65rem] text-slate-400 tracking-widest flex justify-between uppercase">
+                <span>// TIME_SLIDER</span>
+                <span class="text-[#38BDF8]"><span id="timeLabel">0.0</span> hrs</span>
+              </label>
+              <input type="range" id="slider-time" class="cyber-slider mt-2" min="0" max="72" step="0.1" value="0">
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-2 cyber-panel p-4 sm:p-5 flex flex-col">
+          <h3 class="cyber-title-sim text-white text-sm mb-3">// ECUACIONES APLICADAS</h3>
+          <div class="formula-box"><div class="cyber-mono-sim label">V_EXPANSION</div><div class="cyber-mono-sim eq">v(t) = 1.5 + 0.8·sin(0.51·t)</div></div>
+          <div class="formula-box"><div class="cyber-mono-sim label">R_ACUMULADO</div><div class="cyber-mono-sim eq">r(t) = 1.5t − (0.8/0.51)·(cos(0.51t)−1)</div></div>
+          <div class="formula-box"><div class="cyber-mono-sim label">SUPERFICIE</div><div class="cyber-mono-sim eq">A(t) = π · r(t)²</div></div>
+          <div class="formula-box"><div class="cyber-mono-sim label">PERIMETRO</div><div class="cyber-mono-sim eq">P(t) = 2π · r(t)</div></div>
+          <div class="mt-auto pt-3 border-t border-white/5">
+            <h4 class="cyber-mono-sim text-[0.65rem] tracking-widest text-slate-500 mb-3 uppercase">// MÉTRICAS EN TIEMPO REAL</h4>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="cyber-metric"><div class="cm-label">TIEMPO</div><div class="cm-value" id="val-time">0.0 hrs</div></div>
+              <div class="cyber-metric"><div class="cm-label">VELOCIDAD</div><div class="cm-value" id="val-speed">0.00 km/h</div></div>
+              <div class="cyber-metric"><div class="cm-label">RADIO</div><div class="cm-value" id="val-radius">0.00 km</div></div>
+              <div class="cyber-metric"><div class="cm-label">ÁREA</div><div class="cm-value" id="val-area">0.0 km²</div></div>
+              <div class="cyber-metric col-span-2"><div class="cm-label">PERÍMETRO</div><div class="cm-value" id="val-perimeter">0.0 km</div></div>
+            </div>
+            <div id="barrierAlert" class="cyber-mono-sim text-[0.7rem] text-center mt-3 text-slate-500" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIFRAS Y DATOS REALES (APARTADO INDEPENDIENTE) -->
+  <section id="cifras-reales" class="relative py-20 sm:py-28" style="background:linear-gradient(180deg, rgba(3,7,18,0.95) 0%, #030712 100%);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 mb-4">
+        <span class="section-number text-amber-400">//</span>
+        <div class="h-px flex-1 bg-gradient-to-r from-amber-500/40 to-transparent"></div>
+      </div>
+      <h2 class="cyber-title text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3 tracking-wide">Cifras y Datos Reales del Desastre</h2>
+      <p class="cyber-mono-sim text-[0.7rem] text-slate-500 tracking-widest uppercase mb-8">Apartado independiente · métricas documentadas · no altera el texto narrativo</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <article class="stat-card neon-red">
+          <h3 class="stat-title text-[#EF4444]">1. Vida Silvestre y Ecología Marítima</h3>
+          <ul>
+            <li><strong class="text-[#F87171]">Aves</strong> Hasta 1 millón de aves costeras y marinas muertas de 93 especies distintas por petróleo en sus plumajes.</li>
+            <li><strong class="text-[#F87171]">Tortugas Marinas</strong> Entre 56.000 y 166.000 tortugas jóvenes y ~7.600 adultas muertas (especialmente la tortuga Lora, en peligro de extinción).</li>
+            <li><strong class="text-[#F87171]">Delfines y Ballenas</strong> Mayor evento de mortalidad de mamíferos marinos en el Golfo. Murieron hasta 5.000 mamíferos marinos; la población de delfines en la bahía de Barataria se redujo en un 51%.</li>
+            <li><strong class="text-[#F87171]">Peces y Vida Bentónica</strong> Muerte de 2 a 5 millones de alevines (peces recién nacidos) y pérdida de hasta 8.300 millones de ostras.</li>
+          </ul>
+        </article>
+
+        <article class="stat-card neon-amber">
+          <h3 class="stat-title text-[#F59E0B]">2. Extensión del Daño Ecológico</h3>
+          <ul>
+            <li><strong class="text-[#FCD34D]">Superficie Oceánica</strong> El crudo contaminó más de 176.000 km² de superficie marina.</li>
+            <li><strong class="text-[#FCD34D]">Línea Costera</strong> Se ensuciaron más de 1.770 kilómetros de costas y marismas (equivalente a viajar en auto de Bogotá a Caracas).</li>
+            <li><strong class="text-[#FCD34D]">Fondo Marino</strong> Más de 3.100 km² del lecho marino profundo quedaron cubiertos por una capa de lodo tóxico e hidrocarburos.</li>
+          </ul>
+        </article>
+
+        <article class="stat-card neon-cyan">
+          <h3 class="stat-title text-[#38BDF8]">3. Impacto Humano y Económico</h3>
+          <ul>
+            <li><strong class="text-[#7DD3FC]">Pérdida de Vidas Humanas</strong> 11 trabajadores murieron en la explosión de la plataforma y 17 resultaron gravemente heridos.</li>
+            <li><strong class="text-[#7DD3FC]">Comunidades Pesqueras</strong> Capturas de camarón cayeron hasta un 60% en Misisipi; cosechas de ostras colapsaron a un tercio de sus niveles habituales, dejando sin sustento a miles de familias.</li>
+            <li><strong class="text-[#7DD3FC]">Daño Económico a Pequeños Negocios</strong> Pérdidas directas en pesca local &gt;$247 millones USD; el turismo costero perdió hasta $22.700 millones USD (afectando a artesanos, hoteles familiares y restaurantes).</li>
+            <li><strong class="text-[#7DD3FC]">Salud Pública</strong> Químicos en aire (benceno) alcanzaron concentraciones entre 2 y 19 veces por encima de los límites de seguridad, causando enfermedades respiratorias y dermatológicas.</li>
+          </ul>
+        </article>
+
+        <article class="stat-card neon-emerald">
+          <h3 class="stat-title text-[#10B981]">4. Parámetros Oceanográficos de la Simulación</h3>
+          <ul>
+            <li><strong class="text-[#6EE7B7]">Profundidad del Pozo Macondo</strong> 1.500 metros (4.900 pies). Tasa de escape de ~60.000 barriles/día.</li>
+            <li><strong class="text-[#6EE7B7]">Corriente en Bucle (Loop Current)</strong> Velocidad base de advección marina v_base = 1.5 km/h.</li>
+            <li><strong class="text-[#6EE7B7]">Ciclo de Marea Semidiurna</strong> Período de ~12.4 horas (frecuencia angular ω = 0.51 rad/h) con oscilación de velocidad A = 0.8 km/h.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESARROLLO (continuación) -->
+  <section id="desarrollo-cont" class="relative py-20 sm:py-28">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="body-text text-slate-300 text-base sm:text-lg leading-[1.85] space-y-6">
+          <p>Esta aceleración espacial del derrame expone la urgencia de trascender las falsas respuestas corporativas que, mediante el uso masivo de dispersantes químicos que hunden el crudo hacia el fondo oceánico, sólo buscan maquillar la tragedia ante la opinión pública ocultando la contaminación bajo el agua. El derrame constituyó una interrupción violenta de la dinámica biosférica, caracterizada por la liberación descontrolada de altísimas presiones (energía) y la inyección masiva de hidrocarburos tóxicos (materia) que alteraron drásticamente las redes tróficas.</p>
+          <p>Por ello, la respuesta técnica para asumir la responsabilidad exige abandonar los paliativos cosméticos e implementar soluciones tecnocientíficas integrales: la contención mecánica de alta resistencia y el sellado definitivo del pozo en la fuente, combinados con la biorremediación mediante bacterias hidrocarbonoclásticas que metabolizan las complejas cadenas de carbono del petróleo y las transforman en compuestos inocuos, acelerando la degradación de la materia contaminante para restablecer los ciclos energéticos naturales del ecosistema.</p>
+          <p>Esta respuesta técnica solo adquiere un sentido ético y humano pleno bajo el marco de la ecología integral, el cual enseña que la degradación del medio ambiente y la crisis humana son dos caras de un mismo problema. La envenenada marea negra destruyó la salud, el sustento económico y el tejido social de las comunidades pesqueras y poblaciones costeras más vulnerables, demostrando que cualquier alternativa de restauración debe estar guiada por un principio de solidaridad activa y de justicia socio ambiental que proteja la dignidad humana al tiempo que sana la naturaleza.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSIÓN -->
+  <section id="conclusion" class="relative py-20 sm:py-28" style="background:linear-gradient(180deg, rgba(3,7,18,0.95) 0%, #030712 100%);">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-number text-amber-400">03</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-amber-500/40 to-transparent"></div>
+        </div>
+        <h2 class="cyber-title text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-8 tracking-wide">Conclusión</h2>
+        <div class="glass-card rounded-2xl p-8 sm:p-10 glow-amber neon-border-amber">
+          <p class="body-text text-slate-300 text-base sm:text-lg leading-[1.85]">En conclusión, la catástrofe de Deepwater Horizon debe ser recordada como un punto de inflexión. No basta con lamentar el daño ni con aceptar paliativos técnicos que maquillen la destrucción para salvar la reputación corporativa. La articulación entre la crítica filosófica, la evidencia matemática y la ciencia aplicada demuestra que es urgente subordinar los intereses económicos a la preservación de la vida. Para evitar futuras catástrofes, la sociedad debe exigir una transformación ética y política que rechace el extractivismo voraz, promueva la justicia ambiental y proteja de manera decidida a los ecosistemas y a las comunidades que sostienen el equilibrio de nuestro planeta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCIAS -->
+  <section id="referencias" class="relative py-20 sm:py-28">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="section-number text-cyan-400">04</span>
+          <div class="h-px flex-1 bg-gradient-to-r from-cyan-500/40 to-transparent"></div>
+        </div>
+        <h2 class="cyber-title text-3xl sm:text-4xl font-bold text-white mb-8 tracking-wide">Referencias</h2>
+        <div class="glass-card rounded-2xl p-6 sm:p-8">
+          <div class="ref-entry"><span class="ref-num">[1]</span> Freudenburg, W. R., &amp; Gramling, R. (2010). <em>Blowout in the Gulf: The BP oil spill disaster and the future of energy in America</em>. MIT Press.<br><a href="https://direct.mit.edu/books/book/2883/blowout-in-the-gulfthe-bp-oil-spill-disaster-and" target="_blank" rel="noopener">https://direct.mit.edu/books/book/2883/blowout-in-the-gulfthe-bp-oil-spill-disaster-and</a></div>
+          <div class="ref-entry"><span class="ref-num">[2]</span> Ocean Futures Society. (2015). <em>Derrame de petróleo del Deepwater Horizon: 5 años de secuelas</em>.<br><a href="https://www.oceanfutures.org/news/blog/Derrame-de-petroleo-del-Deepwater-Horizon-5-anos-de-secuelas" target="_blank" rel="noopener">https://www.oceanfutures.org/news/blog/Derrame-de-petroleo-del-Deepwater-Horizon-5-anos-de-secuelas</a></div>
+          <div class="ref-entry"><span class="ref-num">[3]</span> Ética Animal. (s. f.). <em>Contractualismo</em>.<br><a href="https://www.animal-ethics.org/contractualismo/" target="_blank" rel="noopener">https://www.animal-ethics.org/contractualismo/</a></div>
+          <div class="ref-entry"><span class="ref-num">[4]</span> Escobar Escobar, M. B., Escobar, R. A., &amp; Cardona Castaño, J. C. (2024). Desafíos y críticas al modelo extractivo en América Latina. <em>Intropica: Revista del Instituto de Investigaciones Tropicales</em>, 19(2).<br><a href="https://dialnet.unirioja.es/servlet/articulo?codigo=10239979" target="_blank" rel="noopener">https://dialnet.unirioja.es/servlet/articulo?codigo=10239979</a></div>
+          <div class="ref-entry"><span class="ref-num">[5]</span> U.S. Environmental Protection Agency. (s.f.). <em>Deepwater Horizon – BP Gulf of Mexico oil spill</em>. Recuperado el 17 de julio de 2026.<br><a href="https://www.epa.gov/enforcement/deepwater-horizon-bp-gulf-america-oil-spill" target="_blank" rel="noopener">https://www.epa.gov/enforcement/deepwater-horizon-bp-gulf-america-oil-spill</a></div>
+          <div class="ref-entry"><span class="ref-num">[6]</span> U.S. Department of Justice. (2015, 5 de octubre). <em>U.S. and five Gulf states reach historic settlement with BP to resolve civil lawsuit over Deepwater Horizon oil spill</em>.<br><a href="https://www.justice.gov/archives/opa/pr/us-and-five-gulf-states-reach-historic-settlement-bp-resolve-civil-lawsuit-over-deepwater" target="_blank" rel="noopener">https://www.justice.gov/archives/opa/pr/us-and-five-gulf-states-reach-historic-settlement-bp-resolve-civil-lawsuit-over-deepwater</a></div>
+          <div class="ref-entry"><span class="ref-num">[7]</span> National Oceanic and Atmospheric Administration. (2017, 20 de abril). <em>Deepwater Horizon oil spill settlements: Where the money went</em>. U.S. Department of Commerce.<br><a href="https://www.noaa.gov/explainers/deepwater-horizon-oil-spill-settlements-where-money-went" target="_blank" rel="noopener">https://www.noaa.gov/explainers/deepwater-horizon-oil-spill-settlements-where-money-went</a></div>
+          <div class="ref-entry"><span class="ref-num">[8]</span> Center for Biological Diversity. (s.f.). <em>A deadly toll: The Gulf oil spill</em>.<br><a href="https://www.biologicaldiversity.org/programs/public_lands/energy/dirty_energy_development/oil_and_gas/gulf_oil_spill/a_deadly_toll.html" target="_blank" rel="noopener">https://www.biologicaldiversity.org/programs/public_lands/energy/dirty_energy_development/oil_and_gas/gulf_oil_spill/a_deadly_toll.html</a></div>
+          <div class="ref-entry"><span class="ref-num">[9]</span> U.S. Department of Justice. (2012, 15 de noviembre). <em>BP Exploration and Production Inc. agrees to plead guilty to felony manslaughter, environmental crimes and obstruction of Congress surrounding Deepwater Horizon incident</em> [Comunicado de prensa].<br><a href="https://www.justice.gov/archives/opa/pr/bp-exploration-and-production-inc-agrees-plead-guilty-felony-manslaughter-environmental" target="_blank" rel="noopener">https://www.justice.gov/archives/opa/pr/bp-exploration-and-production-inc-agrees-plead-guilty-felony-manslaughter-environmental</a></div>
+          <div class="ref-entry"><span class="ref-num">[10]</span> National Commission on the BP Deepwater Horizon Oil Spill and Offshore Drilling. (2011, enero). <em>Deep water: The Gulf oil disaster and the future of offshore drilling</em> (Report to the President). U.S. Government Printing Office.<br><a href="https://www.govinfo.gov/content/pkg/GPO-OILCOMMISSION/pdf/GPO-OILCOMMISSION.pdf" target="_blank" rel="noopener">https://www.govinfo.gov/content/pkg/GPO-OILCOMMISSION/pdf/GPO-OILCOMMISSION.pdf</a></div>
+         
+          <div class="mt-8 pt-6 border-t border-slate-800/50 text-center">
+            <p class="body-text text-sm text-slate-300 font-medium" style="text-align:center;">Investigación por Gabriela Manrique Chavarro y Gabriela del Valle Pacheco</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const boot = function () {
+
+      /* ============================
+         ELEMENT CHECKS
+         ============================ */
+      const canvas = document.getElementById('sim-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      const btnPlay = document.getElementById('btn-play');
+      if (!btnPlay) return;
+      const btnReset = document.getElementById('btn-reset');
+      if (!btnReset) return;
+      const sliderTime = document.getElementById('slider-time');
+      if (!sliderTime) return;
+
+      const valTime = document.getElementById('val-time');
+      const valSpeed = document.getElementById('val-speed');
+      const valRadius = document.getElementById('val-radius');
+      const valArea = document.getElementById('val-area');
+      const valPerimeter = document.getElementById('val-perimeter');
+      const valPhase = document.getElementById('val-phase');
+      const barrierAlertEl = document.getElementById('barrierAlert');
+      const timeLabel = document.getElementById('timeLabel');
+      const simStatus = document.getElementById('simStatus');
+
+      /* ============================
+         CONSTANTS — DATOS OCEANOGRÁFICOS REALES 2010
+         Deepwater Horizon · Pozo Macondo (MC252)
+         ============================ */
+      const V_BASE = 1.5;      // km/h — Loop Current (media)
+      const AMP    = 0.8;      // km/h — amplitud de marea / advección
+      const OMEGA  = 0.51;     // rad/h — semidiurno (~12.4 h)
+      const R0 = 0;
+      const BARRIER_KM = 14;   // anillo estático de contención BP
+      const T_MAX = 72;        // primeras 72 h del derrame
+      const BPD_REAL = 60000;  // barriles/día · tasa de escape real ≈60.000
+      const AREA_DOC_KM2 = 176000; // superficie marina contaminada documentada
+
+      const COAST_KM = 66;
+
+      const OIL_FILL    = 'rgba(56, 189, 248, 0.45)';  // cian neón translúcido
+      const OIL_EDGE    = '#38BDF8';
+      const SHEEN       = 'rgba(56, 189, 248, 0.35)';
+      const OIL_ALERT   = 'rgba(239, 68, 68, 0.55)';   // rojo neón alerta
+      const OIL_ALERT_E = '#EF4444';
+      const CYAN_BORDER = '#38BDF8';
+      const AMBER       = '#F59E0B';
+      const OCEAN_DEEP  = '#0A2A4A';
+      const OCEAN_MID   = '#0E3B5C';
+      const LAND_EDGE   = '#5A4A2E';
+
+      let W = 800, H = 600;
+      let isRunning = false;
+      let animId = null;
+      let time = 0;
+      let lastTs = 0;
+      let rAcum = 0;
+
+      /* ============================
+         RESIZE
+         ============================ */
+      const container = canvas.parentElement;
+      const resizeCanvas = () => {
+        const rect = container.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const w = rect.width;
+        const h = rect.height;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+        W = w; H = h;
+      };
+      resizeCanvas();
+
+      /* ============================
+         HELPERS
+         ============================ */
+      const kmToPx = (km) => (Math.min(W, H) / 260) * km;
+
+      const getVelocity = (t) => V_BASE + AMP * Math.sin(OMEGA * t);
+
+      const getRadiusAnalytical = (t) => {
+        return Math.max(0, (V_BASE * t) - (AMP / OMEGA) * (Math.cos(OMEGA * t) - 1));
+      };
+
+      const setText = (el, val) => { if (el) el.textContent = val; };
+
+      const updateMetrics = (t, r, v) => {
+        const area  = Math.PI * r * r;
+        const perim = 2 * Math.PI * r;
+        setText(valTime,      t.toFixed(1) + ' hrs');
+        setText(valSpeed,     v.toFixed(2) + ' km/h');
+        setText(valRadius,    r.toFixed(2) + ' km');
+        setText(valArea,      area.toLocaleString('es-CO', { maximumFractionDigits: 1 }) + ' km²');
+        setText(valPerimeter, perim.toLocaleString('es-CO', { maximumFractionDigits: 1 }) + ' km');
+        setText(timeLabel,    t.toFixed(1));
+      };
+
+      const setStatus = (text, mode) => {
+        if (!simStatus) return;
+        simStatus.textContent = text;
+        if (mode === 'running') {
+          simStatus.className = 'cyber-mono-sim text-[0.65rem] text-[#38BDF8] tracking-widest px-2 py-0.5 rounded bg-[#38BDF8]/10 border border-[#38BDF8]/40 uppercase';
+        } else if (mode === 'alert') {
+          simStatus.className = 'cyber-mono-sim text-[0.65rem] text-[#F87171] tracking-widest px-2 py-0.5 rounded bg-[#F87171]/10 border border-[#F87171]/40 uppercase';
+        } else {
+          simStatus.className = 'cyber-mono-sim text-[0.65rem] text-slate-500 tracking-widest px-2 py-0.5 rounded bg-slate-500/10 border border-slate-500/20 uppercase';
+        }
+      };
+
+      const updatePhaseBadge = (t) => {
+        if (!valPhase) return;
+        const s = Math.sin(OMEGA * t);
+        if (s > 0.35) {
+          valPhase.textContent = 'MAREA ALTA';
+          valPhase.className = 'tide-badge high ml-auto';
+        } else if (s < -0.35) {
+          valPhase.textContent = 'MAREA BAJA';
+          valPhase.className = 'tide-badge low ml-auto';
+        } else {
+          valPhase.textContent = 'MAREA MEDIA';
+          valPhase.className = 'tide-badge ml-auto';
+        }
+      };
+
+      /* ============================
+         ROUNDED RECT HELPER
+         ============================ */
+      const roundRect = (x, y, w, h, r) => {
+        if (r === undefined) r = 6;
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      };
+
+      /* ============================
+         DRAW FUNCTIONS
+         ============================ */
+      const drawOceanBg = (cx, cy) => {
+        const bg = ctx.createLinearGradient(0, 0, 0, H);
+        bg.addColorStop(0, '#1a3a58');
+        bg.addColorStop(0.35, OCEAN_MID);
+        bg.addColorStop(1, OCEAN_DEEP);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.025)';
+        ctx.lineWidth = 0.5;
+        const now = Date.now() / 4000;
+        for (let y = 0; y < H * 0.82; y += 12) {
+          ctx.beginPath();
+          for (let x = 0; x <= W; x += 20) {
+            const yy = y + Math.sin((x / 60) + now + y * 0.05) * 1.5;
+            if (x === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
+          }
+          ctx.stroke();
+        }
+
+        const water = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(W, H) * 0.4);
+        water.addColorStop(0, 'rgba(56, 189, 248, 0.06)');
+        water.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = water;
+        ctx.beginPath();
+        ctx.arc(cx, cy, Math.max(W, H) * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+      };
+
+      const drawCoast = (cx, cy) => {
+        const coastPx = kmToPx(COAST_KM);
+        const angleDeg = 315;
+        const rad = (angleDeg * Math.PI) / 180;
+        const px = cx + Math.cos(rad) * coastPx;
+        const py = cy + Math.sin(rad) * coastPx;
+        const onScreen = px > -50 && px < W + 50 && py > -50 && py < H * 0.82 + 50;
+
+        if (!onScreen) {
+          const ax = 78, ay = 78;
+          ctx.save();
+          ctx.translate(ax, ay);
+          ctx.rotate(rad);
+          ctx.fillStyle = LAND_EDGE;
+          ctx.beginPath();
+          ctx.moveTo(-16, -4); ctx.lineTo(4, -4); ctx.lineTo(4, -9);
+          ctx.lineTo(14, 0); ctx.lineTo(4, 9); ctx.lineTo(4, 4); ctx.lineTo(-16, 4);
+          ctx.closePath(); ctx.fill();
+          ctx.restore();
+
+          ctx.fillStyle = '#cbd5e1';
+          ctx.font = '700 ' + Math.max(9, Math.min(W, H) / 60) + 'px "Chakra Petch", sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText('LOUISIANA', ax + 20, ay - 4);
+          ctx.fillStyle = '#94a3b8';
+          ctx.font = '500 ' + Math.max(8, Math.min(W, H) / 72) + 'px "JetBrains Mono", monospace';
+          ctx.fillText('↖ ' + COAST_KM + ' km NW', ax + 20, ay + 10);
+        }
+      };
+
+      const drawGrid = (cx, cy) => {
+        const step = Math.max(15, Math.min(W, H) / 20);
+        for (let x = 0; x < W; x += step) {
+          ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H * 0.82); ctx.stroke();
+        }
+        for (let y = 0; y < H * 0.82; y += step) {
+          ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+        }
+
+        ctx.strokeStyle = 'rgba(56,189,248,0.18)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H * 0.82); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke();
+
+        const ringsKm = [14, 30, 50, 75, 100];
+        for (const rKm of ringsKm) {
+          const rPx = kmToPx(rKm);
+          ctx.strokeStyle = 'rgba(56,189,248,0.08)';
+          ctx.lineWidth = 0.5;
+          ctx.setLineDash([2, 6]);
+          ctx.beginPath(); ctx.arc(cx, cy, rPx, 0, Math.PI * 2); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = 'rgba(148,163,184,0.35)';
+          ctx.font = '500 ' + Math.max(7, Math.min(W, H) / 78) + 'px "JetBrains Mono", monospace';
+          ctx.fillText(rKm + ' km', cx + rPx + 4, cy - 3);
+        }
+
+        const nx = 40, ny = H * 0.7;
+        ctx.strokeStyle = 'rgba(148,163,184,0.4)';
+        ctx.fillStyle = 'rgba(148,163,184,0.6)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(nx, ny - 14); ctx.lineTo(nx, ny + 14); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(nx - 14, ny); ctx.lineTo(nx + 14, ny); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(nx, ny - 18); ctx.lineTo(nx - 4, ny - 10); ctx.lineTo(nx + 4, ny - 10);
+        ctx.closePath(); ctx.fill();
+        ctx.font = '700 ' + Math.max(7, Math.min(W, H) / 72) + 'px "Chakra Petch", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('N', nx, ny - 22);
+        ctx.textAlign = 'left';
+
+        drawCoast(cx, cy);
+
+        const pulse = 0.5 + Math.sin(Date.now() / 900) * 0.5;
+        ctx.strokeStyle = 'rgba(239,68,68,' + (0.2 + pulse * 0.3) + ')';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cx, cy, 12 + pulse * 4, 0, Math.PI * 2); ctx.stroke();
+
+        ctx.fillStyle = '#EF4444';
+        ctx.shadowColor = '#EF4444';
+        ctx.shadowBlur = 8;
+        ctx.fillRect(cx - 4, cy - 4, 8, 8);
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(cx - 2, cy); ctx.lineTo(cx + 2, cy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(cx, cy - 2); ctx.lineTo(cx, cy + 2); ctx.stroke();
+
+        ctx.fillStyle = '#F87171';
+        ctx.font = '700 ' + Math.max(8, Math.min(W, H) / 62) + 'px "Chakra Petch", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('POZO MACONDO · MC252', cx + 14, cy - 8);
+        ctx.fillStyle = 'rgba(203,213,225,0.75)';
+        ctx.font = '500 ' + Math.max(7, Math.min(W, H) / 76) + 'px "JetBrains Mono", monospace';
+        ctx.fillText('28.7381°N  88.3661°W', cx + 14, cy + 6);
+        ctx.fillStyle = 'rgba(148,163,184,0.6)';
+        ctx.fillText('Prof: 1.500 m', cx + 14, cy + 18);
+      };
+
+      const drawOilSlick = (cx, cy, rPx, r) => {
+        const breached = r > BARRIER_KM;
+        const fillColor = breached ? OIL_ALERT : OIL_FILL;
+        const edgeColor = breached ? OIL_ALERT_E : OIL_EDGE;
+        const glowColor = breached ? 'rgba(239,68,68,0.35)' : 'rgba(56,189,248,0.30)';
+
+        if (rPx < 1.5) {
+          const pulse = Math.sin(Date.now() / 600) * 0.5 + 0.5;
+          ctx.fillStyle = 'rgba(56,189,248,' + (0.55 + pulse * 0.4) + ')';
+          ctx.shadowColor = '#38BDF8';
+          ctx.shadowBlur = 12 + pulse * 6;
+          ctx.beginPath(); ctx.arc(cx, cy, 2 + pulse * 2, 0, Math.PI * 2); ctx.fill();
+          ctx.shadowBlur = 0;
+          return;
+        }
+
+        const glow = ctx.createRadialGradient(cx, cy, rPx * 0.55, cx, cy, rPx * 1.55);
+        glow.addColorStop(0, glowColor);
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath(); ctx.arc(cx, cy, rPx * 1.55, 0, Math.PI * 2); ctx.fill();
+
+        ctx.fillStyle = fillColor;
+        ctx.beginPath(); ctx.arc(cx, cy, rPx, 0, Math.PI * 2); ctx.fill();
+
+        if (rPx > 8) {
+          const sheenAngle = Date.now() / 3500;
+          for (let i = 0; i < 4; i++) {
+            const angle = sheenAngle + (i * Math.PI * 2 / 4);
+            const dx = Math.cos(angle) * rPx * 0.25;
+            const dy = Math.sin(angle) * rPx * 0.25;
+            const rBand = rPx * (0.45 + i * 0.1);
+            ctx.strokeStyle = breached
+              ? 'rgba(248,113,113,' + (0.18 - i * 0.03) + ')'
+              : 'rgba(125,211,252,' + (0.18 - i * 0.03) + ')';
+            ctx.lineWidth = 1.2;
+            ctx.beginPath(); ctx.arc(cx + dx * 0.15, cy + dy * 0.15, rBand, 0, Math.PI * 2); ctx.stroke();
+          }
+        }
+
+        ctx.strokeStyle = edgeColor;
+        ctx.lineWidth = 2.5;
+        ctx.shadowColor = edgeColor;
+        ctx.shadowBlur = 14;
+        ctx.beginPath(); ctx.arc(cx, cy, rPx, 0, Math.PI * 2); ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        ctx.font = '700 ' + Math.max(10, Math.min(W, H) / 48) + 'px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        const label = 'r = ' + r.toFixed(2) + ' km';
+        const lw = ctx.measureText(label).width;
+        ctx.fillStyle = 'rgba(2,6,14,0.75)';
+        roundRect(cx - lw/2 - 6, cy + rPx + 8, lw + 12, 18, 4);
+        ctx.fill();
+        ctx.fillStyle = breached ? '#F87171' : '#7DD3FC';
+        ctx.fillText(label, cx, cy + rPx + 21);
+        ctx.textAlign = 'left';
+      };
+
+      const drawBarriers = (cx, cy, r) => {
+        const bPx = kmToPx(BARRIER_KM);
+        const breached = r > BARRIER_KM;
+
+        ctx.strokeStyle = AMBER;
+        ctx.lineWidth = breached ? 1.5 : 2;
+        ctx.setLineDash([8, 6]);
+        ctx.shadowColor = breached ? 'transparent' : 'rgba(245,158,11,0.4)';
+        ctx.shadowBlur = breached ? 0 : 8;
+        ctx.beginPath(); ctx.arc(cx, cy, bPx, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = AMBER;
+        ctx.font = '700 ' + Math.max(9, Math.min(W, H) / 55) + 'px "Chakra Petch", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('BARRERA BP · ' + BARRIER_KM + ' km', cx, cy - bPx - 10);
+        ctx.textAlign = 'left';
+
+        if (breached) {
+          const flash = Math.sin(Date.now() / 220) > 0;
+          ctx.fillStyle = flash ? '#EF4444' : '#F87171';
+          ctx.font = '700 ' + Math.max(10, Math.min(W, H) / 42) + 'px "Chakra Petch", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('BARRERA BP SUPERADA', cx, cy - bPx - 28);
+          ctx.textAlign = 'left';
+
+          if (barrierAlertEl) {
+            barrierAlertEl.style.display = 'block';
+            barrierAlertEl.className = 'cyber-mono-sim text-[0.75rem] text-center mt-3 text-[#F87171] font-bold tracking-widest';
+            barrierAlertEl.textContent = 'ALERTA · CRUDO SUPERA EL ANILLO DE ' + BARRIER_KM + ' KM DE BP';
+          }
+        } else if (barrierAlertEl) {
+          barrierAlertEl.style.display = 'none';
+        }
+      };
+
+      const drawWaveChart = (t) => {
+        const wY0 = H * 0.84;
+        const wH  = H * 0.13;
+        const wW  = W * 0.86;
+        const wX0 = (W - wW) / 2;
+
+        ctx.fillStyle = 'rgba(2,6,14,0.75)';
+        roundRect(wX0 - 8, wY0 - 4, wW + 16, wH + 24, 6);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(56,189,248,0.15)';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+
+        const V_MIN = V_BASE - AMP;
+        const V_MAX = V_BASE + AMP;
+        const yFor = (v) => wY0 + wH - ((v - V_MIN) / (V_MAX - V_MIN)) * wH;
+
+        ctx.strokeStyle = 'rgba(56,189,248,0.15)';
+        ctx.setLineDash([2, 4]);
+        ctx.beginPath(); ctx.moveTo(wX0, yFor(V_BASE)); ctx.lineTo(wX0 + wW, yFor(V_BASE)); ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = 'rgba(148,163,184,0.5)';
+        ctx.font = '500 ' + Math.max(7, Math.min(W, H) / 68) + 'px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText(V_MAX.toFixed(1), wX0 - 4, yFor(V_MAX) + 3);
+        ctx.fillText(V_BASE.toFixed(1), wX0 - 4, yFor(V_BASE) + 3);
+        ctx.fillText(V_MIN.toFixed(1), wX0 - 4, yFor(V_MIN) + 3);
+        ctx.textAlign = 'left';
+
+        const winStart = t - 72;
+        const grad = ctx.createLinearGradient(wX0, wY0, wX0, wY0 + wH);
+        grad.addColorStop(0, 'rgba(56,189,248,0.22)');
+        grad.addColorStop(1, 'rgba(56,189,248,0.02)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(wX0, wY0 + wH);
+        for (let i = 0; i <= 200; i++) {
+          const f = i / 200;
+          const tt = winStart + f * 72;
+          const v = V_BASE + AMP * Math.sin(OMEGA * tt);
+          ctx.lineTo(wX0 + f * wW, yFor(v));
+        }
+        ctx.lineTo(wX0 + wW, wY0 + wH);
+        ctx.closePath(); ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = CYAN_BORDER;
+        ctx.lineWidth = 2.2;
+        ctx.shadowColor = CYAN_BORDER;
+        ctx.shadowBlur = 8;
+        for (let i = 0; i <= 200; i++) {
+          const f = i / 200;
+          const tt = winStart + f * 72;
+          const v = V_BASE + AMP * Math.sin(OMEGA * tt);
+          const px = wX0 + f * wW;
+          const py = yFor(v);
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        const curV = V_BASE + AMP * Math.sin(OMEGA * t);
+        const markY = yFor(curV);
+        ctx.fillStyle = AMBER;
+        ctx.shadowColor = 'rgba(245,158,11,0.6)';
+        ctx.shadowBlur = 14;
+        ctx.beginPath(); ctx.arc(wX0 + wW, markY, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = 'rgba(148,163,184,0.7)';
+        ctx.font = '500 ' + Math.max(7, Math.min(W, H) / 68) + 'px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.fillText('v(t) = 1.5 + 0.8·sin(0.51·t)  [km/h] · Loop Current + marea semidiurna', wX0, wY0 + wH + 14);
+        ctx.textAlign = 'right';
+        ctx.fillText('t = ' + t.toFixed(1) + ' h', wX0 + wW, wY0 + wH + 14);
+        ctx.textAlign = 'left';
+      };
+
+      const getRealDate = (t) => {
+        const base = new Date(Date.UTC(2010, 3, 21, 2, 45));
+        const dt = new Date(base.getTime() + t * 3600 * 1000);
+        const months = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+        const local = new Date(dt.getTime() - 5 * 3600 * 1000);
+        const dd = String(local.getUTCDate()).padStart(2, '0');
+        const mm = months[local.getUTCMonth()];
+        const hh = String(local.getUTCHours()).padStart(2, '0');
+        const mn = String(local.getUTCMinutes()).padStart(2, '0');
+        return dd + ' ' + mm + ' 2010 · ' + hh + ':' + mn + ' CT';
+      };
+
+      const drawSpeedPanel = (v, t, r) => {
+        const lx = 10, ly = 10;
+        const w = 190, h = 96;
+        ctx.fillStyle = 'rgba(2,6,14,0.88)';
+        roundRect(lx, ly, w, h, 6);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(56,189,248,0.4)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '700 ' + Math.max(8, Math.min(W, H) / 70) + 'px "Chakra Petch", sans-serif';
+        ctx.fillText('[ VELOCIDAD EXPANSIÓN ]', lx + 10, ly + 14);
+
+        ctx.fillStyle = CYAN_BORDER;
+        ctx.shadowColor = CYAN_BORDER;
+        ctx.shadowBlur = 6;
+        ctx.font = '700 ' + Math.max(13, Math.min(W, H) / 34) + 'px "JetBrains Mono", monospace';
+        ctx.fillText(v.toFixed(3), lx + 10, ly + 34);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '500 ' + Math.max(8, Math.min(W, H) / 62) + 'px "JetBrains Mono", monospace';
+        ctx.fillText('km/h', lx + 10 + ctx.measureText(v.toFixed(3)).width + 6, ly + 34);
+
+        ctx.strokeStyle = 'rgba(148,163,184,0.15)';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath(); ctx.moveTo(lx + 10, ly + 44); ctx.lineTo(lx + w - 10, ly + 44); ctx.stroke();
+
+        const bph = BPD_REAL / 24;
+        const barriles = Math.round(bph * t);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '700 ' + Math.max(8, Math.min(W, H) / 70) + 'px "Chakra Petch", sans-serif';
+        ctx.fillText('[ CRUDO DERRAMADO ]', lx + 10, ly + 58);
+        ctx.fillStyle = '#F59E0B';
+        ctx.shadowColor = 'rgba(245,158,11,0.5)';
+        ctx.shadowBlur = 4;
+        ctx.font = '700 ' + Math.max(12, Math.min(W, H) / 36) + 'px "JetBrains Mono", monospace';
+        ctx.fillText(barriles.toLocaleString('es-CO'), lx + 10, ly + 76);
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '500 ' + Math.max(8, Math.min(W, H) / 62) + 'px "JetBrains Mono", monospace';
+        ctx.fillText('barriles', lx + 10 + ctx.measureText(barriles.toLocaleString('es-CO')).width + 6, ly + 76);
+
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '600 ' + Math.max(7, Math.min(W, H) / 78) + 'px "JetBrains Mono", monospace';
+        ctx.fillText(getRealDate(t), lx + 10, ly + 90);
+      };
+
+      const draw = (t, r) => {
+        ctx.clearRect(0, 0, W, H);
+        const cx = W / 2, cy = H * 0.42;
+        const v   = getVelocity(t);
+        const rPx = kmToPx(r);
+
+        drawOceanBg(cx, cy);
+        drawGrid(cx, cy);
+        drawOilSlick(cx, cy, rPx, r);
+        drawBarriers(cx, cy, r);
+        drawSpeedPanel(v, time, r);
+        drawWaveChart(time);
+      };
+
+      /* ============================
+         ANIMATION LOOP
+         ============================ */
+      const renderAll = () => {
+        rAcum = getRadiusAnalytical(time);
+        const v = getVelocity(time);
+        draw(time, rAcum);
+        updateMetrics(time, rAcum, v);
+        updatePhaseBadge(time);
+
+        if (rAcum > BARRIER_KM) {
+          setStatus('[ ALERTA · BARRERA BP SUPERADA ]', 'alert');
+        } else if (isRunning) {
+          setStatus('[ SIMULANDO ]', 'running');
+        } else {
+          setStatus('[ DETENIDO ]', 'idle');
+        }
+      };
+
+      const tick = (ts) => {
+        if (!isRunning) return;
+        if (time < T_MAX) {
+          const dt  = lastTs ? (ts - lastTs) / 1000 : 0;
+          const dtH = Math.min(dt * 2, 1);
+          time = Math.min(time + dtH, T_MAX);
+          time = parseFloat(time.toFixed(2));
+          sliderTime.value = time;
+        } else {
+          isRunning = false;
+          btnPlay.textContent = 'INICIAR ANIMACIÓN';
+          btnPlay.classList.remove('running');
+        }
+        lastTs = ts;
+        renderAll();
+        if (isRunning) animId = requestAnimationFrame(tick);
+      };
+
+      /* ============================
+         EVENT LISTENERS
+         ============================ */
+      btnPlay.addEventListener('click', () => {
+        if (isRunning) {
+          isRunning = false;
+          if (animId) cancelAnimationFrame(animId);
+          btnPlay.textContent = 'INICIAR ANIMACIÓN';
+          btnPlay.classList.remove('running');
+          renderAll();
+        } else {
+          if (time >= T_MAX) { time = 0; sliderTime.value = 0; }
+          isRunning = true;
+          lastTs = 0;
+          btnPlay.textContent = 'PAUSAR';
+          btnPlay.classList.add('running');
+          animId = requestAnimationFrame(tick);
+        }
+      });
+
+      btnReset.addEventListener('click', () => {
+        isRunning = false;
+        if (animId) cancelAnimationFrame(animId);
+        time = 0;
+        rAcum = R0;
+        sliderTime.value = 0;
+        btnPlay.textContent = 'INICIAR ANIMACIÓN';
+        btnPlay.classList.remove('running');
+        renderAll();
+      });
+
+      sliderTime.addEventListener('input', () => {
+        time = parseFloat(sliderTime.value);
+        if (isRunning) {
+          isRunning = false;
+          if (animId) cancelAnimationFrame(animId);
+          btnPlay.textContent = 'INICIAR ANIMACIÓN';
+          btnPlay.classList.remove('running');
+        }
+        renderAll();
+      });
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        renderAll();
+      });
+
+      /* ============================
+         INIT
+         ============================ */
+      rAcum = R0;
+      renderAll();
+
+    }; // end boot()
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot);
+    } else {
+      boot();
+    }
+
+  })();
+  </script>
+</body>
+</html>
